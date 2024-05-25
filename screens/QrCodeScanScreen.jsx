@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button } from "react-native";
-import { CameraView, Camera } from "expo-camera/next";
+import React, { useState, useEffect } from 'react';
+import { Text, View, StyleSheet, Button, Alert } from 'react-native';
+import { Camera } from 'expo-camera';
+import { useNavigation } from '@react-navigation/native';
 
-export default function QrCodeScanScreen() {
+const QrCodeScanScreen = () => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const getCameraPermissions = async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === "granted");
+      setHasPermission(status === 'granted');
     };
 
     getCameraPermissions();
@@ -17,7 +19,12 @@ export default function QrCodeScanScreen() {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    Alert.alert('Success', `QR code data: ${data}`, [
+      {
+        text: 'OK',
+        onPress: () => navigation.navigate('MarkAttendanceScreen', { qrData: data }),
+      },
+    ]);
   };
 
   if (hasPermission === null) {
@@ -29,24 +36,23 @@ export default function QrCodeScanScreen() {
 
   return (
     <View style={styles.container}>
-      <CameraView
-        onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
-        barcodeScannerSettings={{
-          barcodeTypes: ["qr", "pdf417"],
-        }}
+      <Camera
+        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
       {scanned && (
-        <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
+        <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />
       )}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
 });
+
+export default QrCodeScanScreen;

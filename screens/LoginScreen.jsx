@@ -8,22 +8,24 @@ const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const getUser = () => {
-    getDocs(query(collection(db,'Student')
-    ,where('studentId','==',username))).then(ds =>{
-      if(ds.size == 1){
-        const dt = ds.docs[0].data();
-        //Alert.alert(dt.Password);
-        if (dt.password == password){
-          navigation.navigate('Student');
-        }else{
+  const getUser = async () => {
+    try {
+      const querySnapshot = await getDocs(query(collection(db, 'Student'), where('studentId', '==', username)));
+      if (querySnapshot.size === 1) {
+        const userDoc = querySnapshot.docs[0].data();
+        if (userDoc.password === password) {
+          navigation.navigate('Student', { username });
+        } else {
           Alert.alert('Error', 'Invalid username or password.');
         }
-      }else{
-        Alert.alert('Error', 'Can\'t find Student !');
+      } else {
+        Alert.alert('Error', 'Cannot find Student!');
       }
-    })
-  }
+    } catch (error) {
+      Alert.alert('Error', 'Failed to retrieve student data.');
+      console.error(error);
+    }
+  };
 
   const handleLogin = () => {
     getUser();
@@ -32,17 +34,11 @@ const LoginScreen = ({ navigation }) => {
       // Navigate to admin page
       navigation.navigate('Admin');
     }
-
   };
-
-  
 
   return (
     <View style={styles.container}>
-      <Image
-                source={require('../assets/img/Logo.png')}
-                style={styles.logo}
-            />
+      <Image source={require('../assets/img/Logo.png')} style={styles.logo} />
       <Text style={styles.title}>Login</Text>
       <TextInput
         style={styles.input}
@@ -60,13 +56,9 @@ const LoginScreen = ({ navigation }) => {
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
-
-     
     </View>
   );
 };
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -83,9 +75,9 @@ const styles = StyleSheet.create({
   logo: {
     width: 150,
     height: 150,
-    resizeMode: 'contain', // Adjust the image size and resizeMode as needed
+    resizeMode: 'contain',
     marginBottom: 20,
-},
+  },
   input: {
     width: '100%',
     height: RFValue(40),
@@ -111,4 +103,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen ;
+export default LoginScreen;

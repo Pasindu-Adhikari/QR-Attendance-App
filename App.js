@@ -16,6 +16,10 @@ import LoginAdmin from './screens/LoginAdmin';
 import LoginLec from './screens/LoginLec';
 import ViewStudentDetailsScreen from './screens/ViewStudentDetailsScreen';
 import ViewLecturerDetailsScreen from './screens/ViewLecturerDetailsScreen';
+import MarkAttendanceScreen from './screens/MarkAttendanceScreen';
+import ViewStudentAttendanceScreen from './screens/ViewStudentAttendanceScreen';
+import ViewAllAttendanceScreen from './screens/ViewAllAttendanceScreen';
+import GenerateAttendanceReportScreen from './screens/GenerateAttendanceReportScreen';
 
 
 
@@ -38,9 +42,11 @@ export default function App() {
         <Stack.Screen name="Lecturer_Login" component={LoginLec}/>
         <Stack.Screen name="ViewStudentDetails" component={ViewStudentDetailsScreen}/>
         <Stack.Screen name="ViewLecturerDetails" component={ViewLecturerDetailsScreen}/>
-        
-        
-        
+        <Stack.Screen name="MarkAttendanceScreen" component={MarkAttendanceScreen}/>
+        <Stack.Screen name="ViewStudentAttendance" component={ViewStudentAttendanceScreen} />
+        <Stack.Screen name="ViewAllAttendance" component={ViewAllAttendanceScreen} />
+        <Stack.Screen name="GenerateAttendanceReport" component={GenerateAttendanceReportScreen} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

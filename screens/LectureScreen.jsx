@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-const LectureScreen = ({navigation}) => {
+const LectureScreen = ({route,navigation}) => {
+    const { username } = route.params;
     // Function to handle generating QR code
     const handleGenerateQRCode = () => navigation.navigate("Qr_Generate");
 
     // Function to handle viewing student's attendance
     const handleViewAttendance = () => {
-        console.log('View Student\'s Attendance');
+        () => navigation.navigate('ViewAllAttendance');
     };
 
     // Function to handle viewing exam eligibility
@@ -25,13 +26,15 @@ const LectureScreen = ({navigation}) => {
 
     return (
         <View style={styles.container}>
+
+            <Text style={styles.welcomeText}>Welcome {username}</Text>
             {/* Generate QR Code */}
             <TouchableOpacity style={styles.option} onPress={handleGenerateQRCode}>
                 <Text style={styles.optionText}>Generate QR Code</Text>
             </TouchableOpacity>
 
             {/* View Student's Attendance */}
-            <TouchableOpacity style={styles.option} onPress={handleViewAttendance}>
+            <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('ViewAllAttendance')}>
                 <Text style={styles.optionText}>View Student's Attendance</Text>
             </TouchableOpacity>
 
@@ -41,7 +44,7 @@ const LectureScreen = ({navigation}) => {
             </TouchableOpacity>
 
             {/* Generate Attendance Report */}
-            <TouchableOpacity style={styles.option} onPress={handleGenerateAttendanceReport}>
+            <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('GenerateAttendanceReport')}>
                 <Text style={styles.optionText}>Generate Attendance Report</Text>
             </TouchableOpacity>
 
@@ -74,6 +77,12 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
+    welcomeText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginBottom: 20,
+      },
     logoutButton: {
         backgroundColor: '#FF3B30', // Red color for logout button
     },

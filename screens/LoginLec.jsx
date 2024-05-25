@@ -15,7 +15,7 @@ const LoginLec = ({ navigation }) => {
         const dt = ds.docs[0].data();
         //Alert.alert(dt.Password);
         if (dt.password == password){
-          navigation.navigate('Lecture');
+          navigation.navigate('Lecture', { username });
         }else{
           Alert.alert('Error', 'Invalid username or password.');
         }

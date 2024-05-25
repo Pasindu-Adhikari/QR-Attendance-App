@@ -25,7 +25,7 @@ const AdminScreen = ({navigation}) => {
             </TouchableOpacity>
 
             {/* View Student Attendance */}
-            <TouchableOpacity style={styles.option} onPress={() => console.log('View Student Attendance')}>
+            <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('ViewAllAttendance')}>
                 <Text style={styles.optionText}>View Student Attendance</Text>
             </TouchableOpacity>
 
